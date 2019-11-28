@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "task1": "nodemon src/task1.js",
+    "task1": "nodemon src/task1/main.js",
+    "task2": "nodemon src/task2/main.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
