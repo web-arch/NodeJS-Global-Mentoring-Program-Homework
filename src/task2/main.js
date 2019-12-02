@@ -1,5 +1,5 @@
-const fs = require('fs'); 
-const csv = require('csvtojson');
+import fs from 'fs'; 
+import csv from 'csvtojson';
 
 const csvFile = 'src/task2/csv/node_mentoring_t1_2_input_example.csv';
 const txtFile = 'src/task2/result/result.txt';

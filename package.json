@@ -4,14 +4,17 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "task1": "nodemon src/task1/main.js",
-    "task2": "nodemon src/task2/main.js",
+    "task1": "nodemon --exec babel-node src/task1/main.js",
+    "task2": "nodemon --exec babel-node src/task2/main.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@babel/core": "^7.7.4",
+    "@babel/node": "^7.7.4",
+    "@babel/preset-env": "^7.7.4",
     "csvtojson": "^2.0.10",
     "nodemon": "^2.0.0"
   }
