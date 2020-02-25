@@ -1,5 +1,5 @@
 import { Op } from 'sequelize';
-import { UserModel, initUserModel } from '../models/user';
+import { UserModel } from '../models/user';
 
 import { User } from '../types/user';
 
@@ -19,23 +19,12 @@ function convertToUser(model: UserModel): User | null {
 
 export interface IAccessorToUserData<T> {
     getById(id: string): Promise<T | null>;
-    createOrUpdate(user: User): Promise<User | null>;
-    getSomeBySubstring(regexpString: string, limit?: number | undefined): Promise<User[] | null>;
+    createOrUpdate(user: T): Promise<T | null>;
+    getSomeBySubstring(regexpString: string, limit?: number | undefined): Promise<T[] | null>;
 }
 
 export class AccessorToUserData implements IAccessorToUserData<User> {
-    constructor() {
-        initUserModel();
-
-        UserModel
-            .sync({ force: true })
-            .then(() => UserModel.bulkCreate([
-                { login: 'user1', password: '12345', age: 12 },
-                { login: 'user2', password: 'qwerty', age: 16 },
-                { login: 'SuperMegaGamer', password: 'ASDFG', age: 64 },
-                { login: 'Dima', password: 'passsssword', age: 9 }
-            ]));
-    }
+    constructor() {}
 
     async getById(id: string): Promise<User | null> {
         const user = await UserModel.findByPk(id);
@@ -58,7 +47,6 @@ export class AccessorToUserData implements IAccessorToUserData<User> {
         }
 
         const newUser = await UserModel.create({
-            id: user.id,
             login: user.login,
             password: user.password,
             age: user.age,

@@ -1,26 +1,29 @@
 import express from 'express';
+import { initializeDB } from './db-init';
+
 import { createUserRouter } from './routers/user';
 import { UserService } from './services/user';
-import { db } from './db-init';
 import { AccessorToUserData } from './data-access/user';
+
+import { createGroupRouter } from './routers/group';
+import { GroupService } from './services/group';
+import { AccessorToGroupData } from './data-access/group';
 
 const app = express();
 
 app.listen(8080);
 app.use(express.json());
 
+initializeDB();
+
 const accessorToUserData = new AccessorToUserData();
 const userService = new UserService(accessorToUserData);
 
-app.use('/', createUserRouter(userService));
+const accessorToGroupData = new AccessorToGroupData();
+const groupService = new GroupService(accessorToGroupData);
 
-async function trySql() {
-    try {
-        await db.authenticate();
-        console.log('Connection has been established successfully.');
-    } catch (error) {
-        console.error('Unable to connect to the database:', error);
-    }
-}
-
-trySql();
+app.use(
+    '/',
+    createUserRouter(userService),
+    createGroupRouter(groupService)
+);

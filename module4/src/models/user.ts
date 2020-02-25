@@ -1,5 +1,6 @@
-import { Model, DataTypes } from 'sequelize';
-import { db } from '../db-init';
+import { Model, DataTypes, Sequelize } from 'sequelize';
+import { GroupModel } from './group';
+import { UsersGroupsModel } from './usersGroups';
 
 export class UserModel extends Model {
     id!: string;
@@ -9,13 +10,8 @@ export class UserModel extends Model {
     isDeleted!: boolean;
 }
 
-export function initUserModel() {
+export function initUserModel(sequelize: Sequelize) {
     UserModel.init({
-        id: {
-            type: DataTypes.INTEGER,
-            autoIncrement: true,
-            primaryKey: true
-        },
         login: {
             type: DataTypes.STRING,
             allowNull: false
@@ -33,7 +29,17 @@ export function initUserModel() {
             defaultValue: false
         }
     }, {
-        sequelize: db,
-        modelName: 'users'
+        name: {
+            singular: 'user',
+            plural: 'users'
+        },
+        sequelize,
+        modelName: 'users',
+        timestamps: false
     });
+
+}
+
+export function associateUserModel() {
+    UserModel.belongsToMany(GroupModel, { through: UsersGroupsModel, foreignKey: 'user_id' });
 }
