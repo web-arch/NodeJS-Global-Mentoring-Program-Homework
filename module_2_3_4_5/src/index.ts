@@ -11,7 +11,6 @@ import { AccessorToGroupData } from './data-access/group';
 
 const app = express();
 
-app.listen(8080);
 app.use(express.json());
 
 initializeDB();
@@ -27,3 +26,5 @@ app.use(
     createUserRouter(userService),
     createGroupRouter(groupService)
 );
+
+app.listen(8080)

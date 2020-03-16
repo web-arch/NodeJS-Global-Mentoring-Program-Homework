@@ -23,9 +23,9 @@ export function createGroupRouter(groupService: IGroupService): Router {
         .get<{ id: string }>(
             '/group/:id',
             async (request, response) => {
-                const id = request.params.id;
-
                 try {
+                    const id = request.params.id;
+
                     const group = await groupService.getById(id);
 
                     if (!group) {
@@ -54,9 +54,9 @@ export function createGroupRouter(groupService: IGroupService): Router {
             '/group',
             validator.body(GroupValidationSchema),
             async (request, response) => {
-                const group = request.body;
-
                 try {
+                    const group = request.body;
+
                     const updatedOrNewGroup = await groupService.createOrUpdate(group);
 
                     response.json(updatedOrNewGroup);
@@ -68,9 +68,9 @@ export function createGroupRouter(groupService: IGroupService): Router {
         .delete<{ id: string }>(
             '/group/:id',
             async (request, response) => {
-                const id = request.params.id;
-
                 try {
+                    const id = request.params.id;
+
                     await groupService.removeHard(id);
                     response.send('Group removed!');
                 } catch (error) {
@@ -82,10 +82,10 @@ export function createGroupRouter(groupService: IGroupService): Router {
             '/addUsersToGroup/:id',
             validator.body(UsersGroupsValidationSchema),
             async (request, response) => {
-                const id = request.params.id;
-                const usersIds = request.body.userIds;
-
                 try {
+                    const id = request.params.id;
+                    const usersIds = request.body.userIds;
+
                     const allUsersInGroup = await groupService.addUsers(id, usersIds);
                     response.json(allUsersInGroup);
                 } catch (error) {
