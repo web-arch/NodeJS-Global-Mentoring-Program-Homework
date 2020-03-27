@@ -30,4 +30,8 @@ export function initializeDB() {
     sequelize.authenticate()
         .then(() => console.log('Success connection'))
         .catch((error: Error) => console.log(`Error in connection ${error?.message}`));
+    
+    return {
+        closeConnection: sequelize.close.bind(sequelize)
+    };
 };
