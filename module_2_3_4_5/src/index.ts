@@ -1,6 +1,7 @@
 import express from 'express';
 import expressWinston from 'express-winston';
 import { logger } from './utils/logger';
+import cors from 'cors';
 import { initializeDB } from './db-init';
 
 import { createUserRouter } from './routers/user';
@@ -16,7 +17,10 @@ import { authValidatorMiddleware, authenticationMiddleware, checkAuth } from './
 
 const app = express();
 
-app.use(express.json());
+app.use(
+    express.json(),
+    cors()
+);
 
 const db = initializeDB();
 
