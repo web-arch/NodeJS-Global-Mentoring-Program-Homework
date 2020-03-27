@@ -11,7 +11,8 @@ import { createGroupRouter } from './routers/group';
 import { GroupService } from './services/group';
 import { AccessorToGroupData } from './data-access/group';
 
-import errorHandlingMiddleware from './middlewares/errorHandlingMiddlware';
+import errorHandlingMiddleware from './middlewares/error-handling-middlware';
+import { authValidatorMiddleware, authenticationMiddleware, checkAuth } from './middlewares/auth-middlware';
 
 const app = express();
 
@@ -25,10 +26,27 @@ const userService = new UserService(accessorToUserData);
 const accessorToGroupData = new AccessorToGroupData();
 const groupService = new GroupService(accessorToGroupData);
 
+
 app.use(
     '/',
     expressWinston.logger({ winstonInstance: logger }),
+);
+
+app.use(
+    '/login',
+    authValidatorMiddleware,
+    authenticationMiddleware(userService)
+);
+
+app.use(
+    '/user',
+    checkAuth,
     createUserRouter(userService),
+);
+
+app.use(
+    '/group',
+    checkAuth,
     createGroupRouter(groupService)
 );
 
